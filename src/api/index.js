@@ -15,5 +15,7 @@ export const fetchHotelsFromApi = (query) => {
          .catch(error => {
              reject(error);
          });
+
+     
   });
 };

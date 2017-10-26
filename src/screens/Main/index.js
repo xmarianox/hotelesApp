@@ -5,7 +5,8 @@ import {
 } from 'react-native';
 
 import {
-    HotelList
+    HotelList,
+    Search
 } from "../../components";
 
 const {width} = Dimensions.get('window');
@@ -18,14 +19,35 @@ const Container = styled.View`
 
 export default class Main extends PureComponent<{}> {
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            search_query: ''
+        }
+    }
+
     render() {
         return (
             <Container>
-                <HotelList onPressItem={this._handleOnPressItem.bind(this)} />
+
+                <Search
+                    searchText={this._handleSearchText.bind(this)}
+                    value={this.state.search_query}
+                />
+
+                <HotelList
+                    onPressItem={this._handleOnPressItem.bind(this)}
+                    searchQuery={this.state.search_query}
+                />
 
             </Container>
         );
     }
+
+    _handleSearchText = (text) => {
+        this.setState({ search_query: text});
+    };
 
     _handleOnPressItem = (item) => {
         console.log(`item: ${item.id}`);
