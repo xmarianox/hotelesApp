@@ -8,12 +8,13 @@ import {
 } from 'react-native';
 import styled from 'styled-components/native';
 
-import { Navigation } from 'react-native-navigation';
+
 
 import * as api from '../../api';
 import _ from 'lodash';
 
 import HotelRow from '../HotelRow';
+import Search from '../Search';
 
 
 const {width} = Dimensions.get('window');
@@ -37,13 +38,21 @@ export default class HotelsList extends PureComponent {
             offset: 0,
             limit: 30,
             loading: false,
-            refreshing: false
+            refreshing: false,
+            search_query: ''
         };
     }
 
     render() {
         return (
             <Container>
+
+                <Search
+                    searchText={this._handleSearchText.bind(this)}
+                    onSubmit={this._handleSubmit.bind(this)}
+                    value={this.state.search_query}
+                />
+
                 <FlatList
                     key={'hotelsflatlist'}
                     style={{ width: width, paddingHorizontal: 8, paddingTop: 8 }}
@@ -81,6 +90,15 @@ export default class HotelsList extends PureComponent {
         this.props.onPressItem(item);
     }
 
+
+    _handleSearchText = (text) => {
+        this.setState({ search_query: text});
+    };
+
+    _handleSubmit = () => {
+        //console.log(`submit ${this.state.search_query}`);
+        this.setState({ hotels: [] }, () => this._searchHotel());
+    };
 
     /**
      * API methods
@@ -128,9 +146,21 @@ export default class HotelsList extends PureComponent {
             case 'ADD_HOTEL_TO_BOTTOM':
                 return _.uniqBy([...state, ...hotels], 'id');
                 break;
+            case 'ADD_HOTEL':
+                return _.uniqBy([...hotels, ...state], 'id');
+                break;
             default:
                 return hotels;
         }
+    }
+
+
+    _searchHotel = () => {
+        api.searchHotelsFromApi(this.state.search_query)
+            .then(data => {
+                const dataset = this._setHotels(null, data.hotels, this.state.hotels);
+                this.setState({ hotels: dataset });
+            }).catch(error => console.log(`_searchHotel -> error: ${error}`))
     }
 
 }

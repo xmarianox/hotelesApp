@@ -27,18 +27,23 @@ const SearchInput = styled.TextInput`
 `;
 
 export default class HotelsSearch extends PureComponent {
-     render() {
-         return (
-             <SearchContainer>
-                 <SearchInput
-                     onChangeText={(text) => this.props.searchText(text)}
-                     value={this.props.value}
-                 />
 
-                 {this._renderIcon()}
-             </SearchContainer>
-         )
-     }
+    render() {
+        return (
+            <SearchContainer>
+                <SearchInput
+                    onChangeText={(text) => this.props.searchText(text)}
+                    value={this.props.value}
+                    autoCorrect={false}
+                    onSubmitEditing={() => this.props.onSubmit()}
+                />
 
-     _renderIcon = () => (<Icon name="ios-search" color="#FDBA12" size={22} />);
+                {this._renderIcon()}
+            </SearchContainer>
+        )
+    }
+
+
+    _renderIcon = () => (<Icon name="ios-search" color="#FDBA12" size={22}/>);
+
 }

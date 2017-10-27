@@ -10,7 +10,7 @@ const Row = styled.TouchableOpacity`
   width: ${width - 16};
   background-color: #FFFFFF;
   margin-bottom: 16px;
-  border-radius: 6px;
+  border-radius: 4px;
   overflow: hidden;
 `;
 

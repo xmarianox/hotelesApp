@@ -15,7 +15,23 @@ export const fetchHotelsFromApi = (query) => {
          .catch(error => {
              reject(error);
          });
-
-     
   });
+};
+
+export const searchHotelsFromApi = (name) => {
+    return new Promise((resolve, reject) => {
+        if (!name) {
+            return reject('Parameters missing');
+        }
+
+        // fetch
+        fetch(`${API_URL}/hotels_search?name=${name}`)
+            .then(response => response.json())
+            .then(json => {
+                resolve(json);
+            })
+            .catch(error => {
+                reject(error);
+            });
+    });
 };
