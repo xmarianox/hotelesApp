@@ -36,6 +36,7 @@ export default class HotelsSearch extends PureComponent {
                     value={this.props.value}
                     autoCorrect={false}
                     onSubmitEditing={() => this.props.onSubmit()}
+                    underlineColorAndroid={'#FFFFFF'}
                 />
 
                 {this._renderIcon()}
